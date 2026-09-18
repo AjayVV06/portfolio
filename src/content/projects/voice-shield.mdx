@@ -1,0 +1,78 @@
+---
+title: "Voice-Shield: Deepfake Audio Detection"
+description: "A deep learning audio classification application designed to detect synthetic deepfake audio."
+date: "2026-06-01"
+tech: ["Python", "TensorFlow", "Librosa"]
+---
+
+## Overview
+
+Voice-Shield is a deep learning architecture I engineered to combat the rise of synthetic audio. By analyzing Mel-Spectrograms, the model can differentiate between genuine human speech and AI-generated deepfakes.
+
+### The Architecture
+
+To build this, I utilized **Librosa** for audio processing. The waveform is converted into a Mel-Spectrogram, which allows our Convolutional Neural Network (CNN) to treat the audio classification task as an image classification problem.
+
+```python
+import librosa
+import numpy as np
+
+def extract_features(file_path):
+    audio, sample_rate = librosa.load(file_path, res_type='kaiser_fast')
+    mfccs = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=40)
+    return np.mean(mfccs.T, axis=0)
+
+
+Results
+The model successfully identifies synthetic artifacts that are imperceptible to the human ear.
+
+*Save the file.* You can see how this structure is exactly what you are used to writing in GitHub READMEs. 
+
+### Step 4: Build the Dynamic Route
+Now we tell Next.js how to read that `.mdx` file and turn it into a website page. We use a special bracket syntax `[slug]` to tell Next.js that this URL is dynamic (e.g., `/projects/voice-shield`, `/projects/qr-shield`).
+
+1. In your `src/app` folder, create a new folder named `projects`.
+2. Inside `projects`, create a new folder named `[slug]`. *(Yes, include the square brackets in the folder name).*
+3. Inside `[slug]`, create a file named `page.tsx`.
+4. Paste this complete server component code:
+
+```tsx
+import fs from "fs"
+import path from "path"
+import matter from "gray-matter"
+import { MDXRemote } from "next-mdx-remote/rsc"
+import Link from "next/link"
+import { ArrowLeft } from "lucide-react"
+
+// 1. Tell Next.js where to find the markdown files
+const contentDir = path.join(process.cwd(), "src", "content", "projects")
+
+export default function ProjectPage({ params }: { params: { slug: string } }) {
+  // 2. Get the URL slug (e.g., "voice-shield")
+  const { slug } = params
+  
+  // 3. Read the exact markdown file
+  const filePath = path.join(contentDir, `${slug}.mdx`)
+  const fileContent = fs.readFileSync(filePath, "utf8")
+  
+  // 4. Extract the frontmatter (metadata) and the actual text content
+  const { data, content } = matter(fileContent)
+
+  // 5. Render the page using Tailwind Typography (prose)
+  return (
+    <article className="container mx-auto px-4 py-16 md:py-24 max-w-3xl">
+      <Link href="/" className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-8">
+        <ArrowLeft className="mr-2 h-4 w-4" /> Back to portfolio
+      </Link>
+      
+      <div className="mb-12">
+        <h1 className="text-4xl font-bold tracking-tight mb-4">{data.title}</h1>
+        <p className="text-xl text-muted-foreground">{data.description}</p>
+      </div>
+
+      <div className="prose prose-slate dark:prose-invert max-w-none">
+        <MDXRemote source={content} />
+      </div>
+    </article>
+  )
+}
