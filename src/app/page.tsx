@@ -1,108 +1,84 @@
-import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { ArrowRight, Code } from "lucide-react"
-import Link from "next/link"
-
-// Modular data array: Add new projects here in the future without touching the UI code.
-const projects = [
-  {
-    id: 1,
-    title: "Voice-Shield",
-    description: "Deep learning audio classification application designed to detect synthetic deepfake audio using Mel-Spectrogram analysis.",
-    tech: ["Python", "TensorFlow", "Librosa", "Deep Learning"],
-    githubUrl: "#",
-    liveUrl: "/projects/voice-shield"
-  },
-  {
-    id: 2,
-    title: "Industrial Safety Monitor",
-    description: "Real-time computer vision model trained to detect safety helmet usage on worksites using custom datasets.",
-    tech: ["YOLOv8", "OpenCV", "Python", "Computer Vision"],
-    githubUrl: "#",
-    liveUrl: "#"
-  },
-  {
-    id: 3,
-    title: "QR-Shield",
-    description: "Open-source security tool that extracts URLs from static QR code images and evaluates them against threat detection APIs.",
-    tech: ["Python", "Security APIs", "Open Source"],
-    githubUrl: "#",
-    liveUrl: "#"
-  }
-]
-
+import Image from "next/image";
+import Link from "next/link";
+import { Mail, Globe, Phone, Briefcase } from "lucide-react";
 export default function Home() {
   return (
-    <div className="container mx-auto px-4 py-16 md:py-24 lg:py-32">
-      
+    <main className="min-h-screen bg-[#0a1121] text-white">
       {/* Hero Section */}
-      <section className="flex flex-col items-start gap-4 max-w-[800px] mb-24">
-        <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
-          Engineering intelligent systems <br className="hidden md:block" />
-          <span className="text-muted-foreground">and secure architectures.</span>
-        </h1>
-        <p className="text-lg md:text-xl text-muted-foreground mt-4 max-w-[600px]">
-          I'm an Artificial Intelligence and Machine Learning Engineer specializing in computer vision, deep learning, and scalable software solutions.
-        </p>
-        <div className="flex gap-4 mt-6">
-          <Button asChild size="lg">
-            <Link href="#projects">
-              View Projects <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
-          <Button variant="outline" size="lg" asChild>
-            <Link href="https://github.com" target="_blank">
-              <Code className="mr-2 h-4 w-4" /> GitHub
-            </Link>
-          </Button>
-        </div>
-      </section>
-
-      {/* Projects Grid Section */}
-      <section id="projects" className="scroll-mt-20">
-        <div className="flex flex-col gap-4 mb-8">
-          <h2 className="text-3xl font-bold tracking-tight">Featured Work</h2>
-          <p className="text-muted-foreground">Technical case studies and open-source contributions.</p>
-        </div>
+      <section className="container mx-auto px-6 md:px-12 pt-24 pb-20 flex flex-col md:flex-row items-center gap-12">
         
-        {/* CSS Grid: 1 column on mobile, 2 on tablet, 3 on desktop */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project) => (
-            <Card key={project.id} className="flex flex-col">
-              <CardHeader>
-                <CardTitle>{project.title}</CardTitle>
-                <CardDescription className="pt-2">{project.description}</CardDescription>
-              </CardHeader>
-              <CardContent className="flex-1">
-                <div className="flex flex-wrap gap-2">
-                  {project.tech.map((tech) => (
-                    <Badge key={tech} variant="secondary">
-                      {tech}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-              <CardFooter className="flex gap-4 border-t pt-6">
-                <Link href={project.githubUrl} className="text-sm font-medium hover:underline flex items-center">
-                  <Code className="mr-2 h-4 w-4" /> Code
-                </Link>
-                <Link href={project.liveUrl} className="text-sm font-medium hover:underline flex items-center">
-                  Case Study <ArrowRight className="ml-1 h-3 w-3" />
-                </Link>
-              </CardFooter>
-            </Card>
-          ))}
+        {/* Left Side: Glowing Image */}
+        <div className="flex-1 flex justify-center relative">
+          {/* Glowing Background Blob */}
+          <div className="absolute w-[300px] h-[300px] bg-blue-500/30 rounded-full blur-3xl shadow-[0_0_100px_50px_rgba(59,130,246,0.2)]"></div>
+          
+          {/* Main Image Container */}
+          <div className="relative z-10 w-[300px] h-[350px] md:w-[350px] md:h-[420px] rounded-[40px] rounded-bl-[120px] rounded-tr-[120px] border-b-4 border-blue-500 bg-[#0f172a] overflow-hidden flex items-end justify-center shadow-2xl">
+            {/* The image tag points to the public folder */}
+            <Image 
+              src="/profile-new.png" 
+              alt="Ajay | AIML Engineer" 
+              width={350}
+              height={420}
+              className="object-cover"
+            />
+          </div>
+        </div>
+
+        {/* Right Side: Text & Bio */}
+        <div className="flex-1 space-y-6">
+          <p className="text-lg text-slate-300 font-medium">Hello, I'm</p>
+          <h1 className="text-5xl md:text-6xl font-bold text-white tracking-tight">
+            Ajay
+          </h1>
+          <h2 className="text-2xl text-blue-400 font-semibold">
+            And I'm an AIML Engineer |
+          </h2>
+          <p className="text-sm md:text-base text-slate-400 leading-relaxed max-w-lg">
+            I specialize in developing machine learning, deep learning, and computer vision applications using Python, OpenCV, TensorFlow, and YOLOv8 to build intelligent, scalable solutions.
+          </p>
+
+          {/* Social Icons */}
+          <div className="flex items-center gap-4 pt-2">
+            <Link href="#" className="p-2 bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white rounded-md transition-colors"><Mail size={20} /></Link>
+            <Link href="#" className="p-2 bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white rounded-md transition-colors"><Globe size={20} /></Link>
+            <Link href="#" className="p-2 bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white rounded-md transition-colors"><Phone size={20} /></Link>
+            <Link href="#" className="p-2 bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white rounded-md transition-colors"><Briefcase size={20} /></Link>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex items-center gap-4 pt-4">
+            <button className="px-8 py-3 bg-blue-500 text-white font-medium rounded-md hover:bg-blue-600 transition-colors shadow-lg shadow-blue-500/30">
+              Hire Me
+            </button>
+            <button className="px-8 py-3 bg-transparent border border-blue-500 text-blue-400 font-medium rounded-md hover:bg-blue-500/10 transition-colors">
+              Contact Me
+            </button>
+          </div>
         </div>
       </section>
 
-    </div>
-  )
+      {/* Stats Banner */}
+      <section className="container mx-auto px-6 md:px-12 py-12 border-t border-slate-800/50">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center md:divide-x divide-slate-700">
+          <div className="flex flex-col items-center justify-center">
+            <h3 className="text-4xl font-bold text-white mb-2">2+</h3>
+            <p className="text-xs text-slate-400 uppercase tracking-wider">Years of<br/>Study</p>
+          </div>
+          <div className="flex flex-col items-center justify-center">
+            <h3 className="text-4xl font-bold text-white mb-2">5+</h3>
+            <p className="text-xs text-slate-400 uppercase tracking-wider">Projects<br/>Completed</p>
+          </div>
+          <div className="flex flex-col items-center justify-center">
+            <h3 className="text-4xl font-bold text-white mb-2">8+</h3>
+            <p className="text-xs text-slate-400 uppercase tracking-wider">Technologies<br/>Mastered</p>
+          </div>
+          <div className="flex flex-col items-center justify-center">
+            <h3 className="text-4xl font-bold text-white mb-2">100%</h3>
+            <p className="text-xs text-slate-400 uppercase tracking-wider">Code<br/>Quality</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
 }
